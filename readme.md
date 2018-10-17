@@ -4,9 +4,9 @@ btlock
 btlock automatically locks your computer when you leave it, by checking
 if a Bluetooth device is close or not. For example your phone.
 
-> Note: Currently, the check is very simple:
->       The only check is whether the device is in range or not.
->       This might or might not be enough for you.
+> Currently, the check is very simple:
+> The only check is whether the device is in range or not.
+> This might or might not be enough for you.
 
 Example
 -------
