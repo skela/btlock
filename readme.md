@@ -56,24 +56,24 @@ btlock supports several ways of configuration, so you can choose what you prefer
 
 * Command line arguments:
 
-        $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3lock'
+      $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3lock'
 
 * Config file:
 
-        $ mkdir -p ~/.config/btlock
-        $ cat << _EOF_ >> ~/.config/btlock/config
-        device=A0:B1:C2:D3:E4:F5
-        lock-command=i3lock -n
-        unlock-command=pkill i3lock
-        _EOF_
-        $ btlock
+      $ mkdir -p ~/.config/btlock
+      $ cat << _EOF_ >> ~/.config/btlock/config
+      device=A0:B1:C2:D3:E4:F5
+      lock-command=i3lock -n
+      unlock-command=pkill i3lock
+      _EOF_
+      $ btlock
 
 * Environment variables:
 
-        $ export BTLOCK_DEVICE='A0:B1:C2:D3:E4:F5'
-        $ export BTLOCK_COMMAND_LOCK='i3lock -n'
-        $ export BTLOCK_COMMAND_UNLOCK='pkill i3lock'
-        $ btlock
+      $ export BTLOCK_DEVICE='A0:B1:C2:D3:E4:F5'
+      $ export BTLOCK_COMMAND_LOCK='i3lock -n'
+      $ export BTLOCK_COMMAND_UNLOCK='pkill i3lock'
+      $ btlock
 
 Install
 -------
