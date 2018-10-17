@@ -65,6 +65,8 @@ btlock supports several ways of configuration, so you can choose what you prefer
       device=A0:B1:C2:D3:E4:F5
       lock-command=i3lock -n
       unlock-command=pkill i3lock
+      search-duration=3
+      search-timeout=20
       _EOF_
       $ btlock
 
@@ -73,6 +75,8 @@ btlock supports several ways of configuration, so you can choose what you prefer
       $ export BTLOCK_DEVICE='A0:B1:C2:D3:E4:F5'
       $ export BTLOCK_COMMAND_LOCK='i3lock -n'
       $ export BTLOCK_COMMAND_UNLOCK='pkill i3lock'
+      $ export BTLOCK_SEARCH_INTERVAL_FOUND='30'
+      $ export BTLOCK_SEARCH_INTERVAL_MISSING='5'
       $ btlock
 
 Install
