@@ -65,6 +65,7 @@ btlock supports several ways of configuration, so you can choose what you prefer
         device=A0:B1:C2:D3:E4:F5
         lock-command=i3lock -n
         unlock-command=pkill i3lock
+        _EOF_
         $ btlock
 
 * Environment variables:
