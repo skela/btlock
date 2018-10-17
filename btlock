@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import time
+import logging
+import configargparse
+import bluetooth
+
+def parse_config():
+    config_files = ['{0}/btlock/config'.format('/etc'),
+                    '{0}/btlock/config'.format(os.getenv('XDG_CONFIG_HOME') or '~/.config')]
+
+    parser = configargparse.ArgParser(default_config_files=config_files)
+
+    parser.add_argument('-v', '--verbose', env_var='VERBOSE', default=False, action='store_true')
+    parser.add_argument('-c', '--config-file', env_var='BTLOCK_CONFIG_FILE', is_config_file=True)
+    parser.add_argument('--device', env_var='BTLOCK_DEVICE', required=True)
+    parser.add_argument('--lock-command', env_var='BTLOCK_COMMAND_LOCK', required=True)
+    parser.add_argument('--unlock-command', env_var='BTLOCK_COMMAND_UNLOCK', required=True)
+    parser.add_argument('--search-duration', env_var='BTLOCK_SEARCH_DURATION', type=int, default=3)
+    parser.add_argument('--search-timeout', env_var='BTLOCK_SEARCH_TIMEOUT', type=int, default=20)
+    parser.add_argument('--search-interval-found', env_var='BTLOCK_SEARCH_INTERVAL_FOUND', type=int,
+                        default=30)
+    parser.add_argument('--search-interval-missing', env_var='BTLOCK_SEARCH_INTERVAL_MISSING',
+                        type=int, default=5)
+
+    config = parser.parse_args()
+
+    return config
+
+def setup_logging(verbose):
+    if not verbose:
+        log_level = logging.WARNING
+    else:
+        log_level = logging.DEBUG
+
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=log_level)
+
+def is_device_here(device_address, search_duration):
+    lookup_result = bluetooth.lookup_name(device_address, timeout=search_duration)
+
+    if lookup_result:
+        return True
+
+    return False
+
+def watch(config):
+    search_missing_elapsed = 0
+    interval               = config.search_interval_found
+
+    logging.info('looking for device {0}'.format(config.device))
+
+    while True:
+        if is_device_here(config.device, config.search_duration):
+            logging.debug('found device')
+            search_missing_elapsed = 0
+
+            logging.info('running unlock command')
+            os.system(config.unlock_command)
+
+            # while the device is found, don't search so often
+            interval = config.search_interval_found
+        else:
+            logging.debug('did not find device')
+            search_missing_elapsed += config.search_duration
+
+            if search_missing_elapsed < config.search_timeout:
+                # while the device is missing and we're not locked,
+                # search more often (so we can lock faster)
+                interval = config.search_interval_missing
+            else:
+                logging.info('running lock command')
+                os.system(config.lock_command)
+
+                # action performed, back to normal search
+                interval = config.search_interval_found
+
+            # not really correct placement, but it works correctly
+            search_missing_elapsed += interval
+
+        time.sleep(interval)
+
+def main():
+    config = parse_config()
+    setup_logging(config.verbose)
+    watch(config)
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (KeyboardInterrupt):
+        sys.exit()
