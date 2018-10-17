@@ -49,6 +49,16 @@ Usage
       --search-interval-missing SEARCH_INTERVAL_MISSING
                             [env var: BTLOCK_SEARCH_INTERVAL_MISSING]
 
+Install
+-------
+
+    $ pip install -r requirements.txt
+
+Uninstall
+---------
+
+    $ pip uninstall -r requirements.txt
+
 Configure
 ---------
 
@@ -78,14 +88,4 @@ btlock supports several ways of configuration, so you can choose what you prefer
       $ export BTLOCK_SEARCH_INTERVAL_FOUND='30'
       $ export BTLOCK_SEARCH_INTERVAL_MISSING='5'
       $ btlock
-
-Install
--------
-
-    $ pip install -r requirements.txt
-
-Uninstall
----------
-
-    $ pip uninstall -r requirements.txt
 
