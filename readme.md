@@ -11,7 +11,7 @@ if a Bluetooth device is close or not. For example your phone.
 Example
 -------
 
-    $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3'
+    $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3lock'
 
 Usage
 -----
@@ -56,7 +56,7 @@ btlock supports several ways of configuration, so you can choose what you prefer
 
 * Command line arguments:
 
-        $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3'
+        $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3lock'
 
 * Config file:
 
@@ -64,14 +64,14 @@ btlock supports several ways of configuration, so you can choose what you prefer
         $ cat << _EOF_ >> ~/.config/btlock/config
         device=A0:B1:C2:D3:E4:F5
         lock-command=i3lock -n
-        unlock-command=pkill i3
+        unlock-command=pkill i3lock
         $ btlock
 
 * Environment variables:
 
         $ export BTLOCK_DEVICE='A0:B1:C2:D3:E4:F5'
         $ export BTLOCK_COMMAND_LOCK='i3lock -n'
-        $ export BTLOCK_COMMAND_UNLOCK='pkill i3'
+        $ export BTLOCK_COMMAND_UNLOCK='pkill i3lock'
         $ btlock
 
 Install
