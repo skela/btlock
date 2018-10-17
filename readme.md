@@ -8,8 +8,8 @@ if a Bluetooth device is close or not. For example your phone.
 > The only check is whether the device is in range or not.
 > This might or might not be enough for you.
 
-Example
--------
+Examples
+--------
 
     $ btlock --device 'A0:B1:C2:D3:E4:F5' --lock-command 'i3lock -n' --unlock-command 'pkill i3lock'
 
