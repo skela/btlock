@@ -4,9 +4,8 @@ btlock
 btlock automatically locks your computer when you leave it, by checking
 if a Bluetooth device is close or not. For example your phone.
 
-> Currently, the check is very simple:
-> The only check is whether the device is in range or not.
-> This might or might not be enough for you.
+It works by checking Bluetooth RSSI (signal strength) to the device you specify.
+If RSSI is outside a configurable limit, btlock locks your computer.
 
 Examples
 --------
@@ -18,7 +17,7 @@ Usage
 
     usage: btlock [-h] [-v] [-c CONFIG_FILE] --device DEVICE --lock-command
                   LOCK_COMMAND --unlock-command UNLOCK_COMMAND
-                  [--search-duration SEARCH_DURATION]
+                  [--rssi-min RSSI_MIN] [--rssi-max RSSI_MAX]
                   [--search-timeout SEARCH_TIMEOUT]
                   [--search-interval-found SEARCH_INTERVAL_FOUND]
                   [--search-interval-missing SEARCH_INTERVAL_MISSING]
@@ -40,8 +39,8 @@ Usage
                             [env var: BTLOCK_COMMAND_LOCK]
       --unlock-command UNLOCK_COMMAND
                             [env var: BTLOCK_COMMAND_UNLOCK]
-      --search-duration SEARCH_DURATION
-                            [env var: BTLOCK_SEARCH_DURATION]
+      --rssi-min RSSI_MIN   [env var: BTLOCK_RSSI_MIN]
+      --rssi-max RSSI_MAX   [env var: BTLOCK_RSSI_MIN]
       --search-timeout SEARCH_TIMEOUT
                             [env var: BTLOCK_SEARCH_TIMEOUT]
       --search-interval-found SEARCH_INTERVAL_FOUND
@@ -75,7 +74,8 @@ btlock supports several ways of configuration, so you can choose what you prefer
       device=A0:B1:C2:D3:E4:F5
       lock-command=i3lock -n
       unlock-command=pkill i3lock
-      search-duration=3
+      rssi_min=-10
+      rssi_max=10
       search-timeout=20
       _EOF_
       $ btlock
