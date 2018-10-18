@@ -24,9 +24,9 @@ Usage
                   [--search-interval-missing SEARCH_INTERVAL_MISSING]
     
     Args that start with '--' (eg. -v) can also be set in a config file
-    (/etc/btlock/btlockrc or ~/.config/btlock/btlockrc or specified via -c).
-    Config file syntax allows: key=value, flag=true, stuff=[a,b,c] (for details,
-    see syntax at https://goo.gl/R74nmi). If an arg is specified in more than one
+    (/etc/btlock/config or ~/.config/btlock/config or specified via -c). Config
+    file syntax allows: key=value, flag=true, stuff=[a,b,c] (for details, see
+    syntax at https://goo.gl/R74nmi). If an arg is specified in more than one
     place, then commandline values override environment variables which override
     config file values which override defaults.
     
