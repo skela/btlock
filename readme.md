@@ -4,7 +4,7 @@ btlock
 btlock automatically locks your computer when you leave it, by checking
 if a Bluetooth device is close or not. For example your phone.
 
-It works by checking Bluetooth RSSI (signal strength) to the device you specify.
+It works by checking Bluetooth RSSI (signal strength) to your device.
 If RSSI is outside a configurable limit, btlock locks your computer.
 
 Examples
