@@ -48,7 +48,7 @@ def is_device_here(device, rssi_min, rssi_max):
         if len(rssi) == 1:
             rssi = float(rssi[0])
         else:
-            raise ValueError('RSSI has more than one value: {0}\n'.format(rssi))
+            raise ValueError('RSSI has more than one value: {0}'.format(rssi))
 
     if isinstance(rssi, float):
         logging.debug('RSSI: {0}'.format(rssi))
