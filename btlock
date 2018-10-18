@@ -21,7 +21,7 @@ def parse_config():
     parser.add_argument('--rssi-min', env_var='BTLOCK_RSSI_MIN', type=float, default=-10)
     parser.add_argument('--rssi-max', env_var='BTLOCK_RSSI_MAX', type=float, default=10)
     parser.add_argument('--search-timeout', env_var='BTLOCK_SEARCH_TIMEOUT', type=int, default=20)
-    parser.add_argument('--search-interval-found', env_var='BTLOCK_SEARCH_INTERVAL_FOUND', type=int,
+    parser.add_argument('--search-interval-near', env_var='BTLOCK_SEARCH_INTERVAL_NEAR', type=int,
                         default=30)
     parser.add_argument('--search-interval-missing', env_var='BTLOCK_SEARCH_INTERVAL_MISSING',
                         type=int, default=5)
@@ -38,7 +38,7 @@ def setup_logging(verbose):
 
     logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=log_level)
 
-def is_device_here(device, rssi_min, rssi_max):
+def is_device_near(device, rssi_min, rssi_max):
     scan_object = bt_proximity.BluetoothRSSI(device)
     rssi        = scan_object.request_rssi()
 
@@ -62,24 +62,24 @@ def is_device_here(device, rssi_min, rssi_max):
 
 def watch(config):
     search_missing_elapsed = 0
-    interval               = config.search_interval_found
+    interval               = config.search_interval_near
 
     logging.info('looking for device {0}'.format(config.device))
     logging.debug('using RSSI minimum value: {0}'.format(config.rssi_min))
     logging.debug('using RSSI maximum value: {0}'.format(config.rssi_max))
 
     while True:
-        if is_device_here(config.device, config.rssi_min, config.rssi_max):
-            logging.debug('found device')
+        if is_device_near(config.device, config.rssi_min, config.rssi_max):
+            logging.debug('device is near')
             search_missing_elapsed = 0
 
             logging.info('running unlock command')
             os.system(config.unlock_command)
 
-            # while the device is found, don't search so often
-            interval = config.search_interval_found
+            # while the device is near, don't search so often
+            interval = config.search_interval_near
         else:
-            logging.debug('did not find device')
+            logging.debug('device is missing')
 
             if search_missing_elapsed < config.search_timeout:
                 # while the device is missing and we're not locked,
@@ -90,7 +90,7 @@ def watch(config):
                 os.system(config.lock_command)
 
                 # action performed, back to normal search
-                interval = config.search_interval_found
+                interval = config.search_interval_near
 
             # not really correct placement, but it works correctly
             search_missing_elapsed += interval
