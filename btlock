@@ -38,8 +38,9 @@ def setup_logging(verbose):
 
     logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=log_level)
 
-def is_device_here(scan_object, rssi_min, rssi_max):
-    rssi = scan_object.request_rssi()
+def is_device_here(device, rssi_min, rssi_max):
+    scan_object = bt_proximity.BluetoothRSSI(device)
+    rssi        = scan_object.request_rssi()
 
     # RSSI is returned as a tuple, not a float
     # extract float RSSI from tuple
@@ -60,7 +61,6 @@ def is_device_here(scan_object, rssi_min, rssi_max):
     return False
 
 def watch(config):
-    scan_object            = bt_proximity.BluetoothRSSI(config.device)
     search_missing_elapsed = 0
     interval               = config.search_interval_found
 
@@ -69,7 +69,7 @@ def watch(config):
     logging.debug('using RSSI maximum value: {0}'.format(config.rssi_max))
 
     while True:
-        if is_device_here(scan_object, config.rssi_min, config.rssi_max):
+        if is_device_here(config.device, config.rssi_min, config.rssi_max):
             logging.debug('found device')
             search_missing_elapsed = 0
 
