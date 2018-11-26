@@ -6,6 +6,7 @@ import time
 import logging
 import configargparse
 import bt_proximity
+import setproctitle
 
 def parse_config():
     config_files = ['{0}/btlock/config'.format('/etc'),
@@ -98,6 +99,7 @@ def watch(config):
         time.sleep(interval)
 
 def main():
+    setproctitle.setproctitle("btlock")
     config = parse_config()
     setup_logging(config.verbose)
     watch(config)
