@@ -1,3 +1,4 @@
 ConfigArgParse>=0.13,<1
 PyBluez>=0.22,<1
 bt-proximity>=0.1,<1
+setproctitle>=1.1.10
