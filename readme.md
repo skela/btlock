@@ -50,13 +50,27 @@ Usage
 
 Install
 -------
-
+    
+### Linux
+  
     $ pip install -r requirements.txt
+
+### Mac OS
+  
+    $ pip install -r requirements-macos.txt
+
+You also need to ensure that swift is installed and available via command line
 
 Uninstall
 ---------
 
+### Linux
+
     $ pip uninstall -r requirements.txt
+
+### Mac OS
+
+    $ pip uninstall -r requirements-macos.txt
 
 Configure
 ---------

@@ -5,7 +5,6 @@ import sys
 import time
 import logging
 import configargparse
-import bt_proximity
 import setproctitle
 
 def parse_config():
@@ -39,9 +38,21 @@ def setup_logging(verbose):
 
     logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=log_level)
 
+def get_device_rssi(device):
+    if sys.platform == 'darwin':
+        import subprocess
+        output = subprocess.check_output(['swift', 'macos_bluetooth_rssi.swift', device])
+        if output == b"not_connected\n":
+            return None
+        return float(output)
+    else:
+        import bt_proximity
+        scan_object = bt_proximity.BluetoothRSSI(device)
+        rssi        = scan_object.request_rssi()
+        return rssi
+
 def is_device_near(device, rssi_min, rssi_max):
-    scan_object = bt_proximity.BluetoothRSSI(device)
-    rssi        = scan_object.request_rssi()
+    rssi = get_device_rssi(device)
 
     # RSSI is returned as a tuple, not a float
     # extract float RSSI from tuple
